@@ -135,8 +135,8 @@ processors:
       value: "1"
       action: upsert
     - key: region
-      value: "zone-1"
       action: upsert
+      value: "zone-1"
 
 exporters:
   # Traces
