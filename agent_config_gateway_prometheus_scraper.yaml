@@ -88,17 +88,17 @@ splunkObservability:
   realm: "us1"
   # Required for Splunk Observability (if `realm` is specified). Splunk
   # Observability org access token.
-  accessToken: ""
+  accessToken: "..."
 
   # Optional. Splunk Observability ingest URL, default:
   # "https://ingest.<realm>.signalfx.com".
-  ingestUrl: "https://ingest.us1.signalfx.com"
+  # ingestUrl: "https://ingest.us1.signalfx.com"
   # Optional. Splunk Observability API URL, default:
   # "https://api.<realm>.signalfx.com".
-  apiUrl: "https://api.us1.signalfx.com"
+  # apiUrl: "https://api.us1.signalfx.com"
 
   # Options to disable or enable particular telemetry data types.
-  metricsEnabled: false
+  metricsEnabled: true
   tracesEnabled: false
   logsEnabled: false
 
@@ -900,13 +900,16 @@ gateway:
   # Any additional fields will be merged into the defaults,
   # existing fields can be disabled by setting them to `null`.
   config: {
-
-  receivers:
-  smartagent/prometheus-exporter:
-    type: prometheus-exporter
-    # TODO fvaliquette
-
-}
+    receivers:
+      smartagent/prometheus-exporter:
+        type: prometheus-exporter
+        host: ... 
+        port: 9161
+    service:
+      pipelines:
+        metrics:
+          receivers: [hostmetrics, otlp, signalfx, smartagent/signalfx-forwarder, smartagent/prometheus-exporter]
+  }
 
 ################################################################################
 # OpenTelemetry service config, used for otel collector deployment.
