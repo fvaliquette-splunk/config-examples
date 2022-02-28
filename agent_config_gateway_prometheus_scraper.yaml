@@ -901,14 +901,22 @@ gateway:
   # existing fields can be disabled by setting them to `null`.
   config: {
     receivers:
-      smartagent/prometheus-exporter:
+      smartagent/prometheus-exporter1:
         type: prometheus-exporter
-        host: ... 
+        host: host1 
+        port: 9161
+      smartagent/prometheus-exporter-myexporter:
+        type: prometheus-exporter
+        host: host2 
+        port: 9161
+      smartagent/prometheus-exporter3:
+        type: prometheus-exporter
+        host: host3
         port: 9161
     service:
       pipelines:
         metrics:
-          receivers: [hostmetrics, otlp, signalfx, smartagent/signalfx-forwarder, smartagent/prometheus-exporter]
+          receivers: [hostmetrics, otlp, signalfx, smartagent/signalfx-forwarder, smartagent/prometheus-exporter, smartagent/prometheus-exporter2-myexporter, smartagent/prometheus-exporter3]
   }
 
 ################################################################################
