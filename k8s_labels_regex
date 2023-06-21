@@ -1,0 +1,31 @@
+agent:
+  config:
+    processors:
+      k8sattributes/annotations: &k8s-annotations-config
+        extract:
+          annotations:
+            # two examples of fetching annotation from pod and namespace
+            # many items can be added here. There is also `key_regex` option (not recommended) that can
+            # be used to fetch annotations by regex, `key` can have regex matching groups in that case.
+            # Make sure that annotations added here are not being changed often. Any change will create
+            # new set of time series in Splunk Observability.
+            - from: pod
+              # name of a pod annotation
+              key: annotation1
+              # attribute name under which the annotation will be added
+              tag_name: annotation1
+            - from: namespace
+              # name of a namespace annotation
+              key: annotation2
+              # attribute name under which the annotation will be added
+              tag_name: annotation2
+            - from: pod
+              key_regex: (annotation.*)
+              # attribute name under which the annotation will be added
+              tag_name: $$1
+          metadata:
+            - k8s.pod.uid
+        pod_association:
+          - sources:
+            - from: resource_attribute
+              name: k8s.pod.uid
